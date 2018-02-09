@@ -1,0 +1,7 @@
+{
+  "name": "Polymer-Routing-Project",
+  "short_name": "Polymer-Routing-Project",
+  "description": "Basic Routing Application",
+  "start_url": "/",
+  "display": "standalone"
+}

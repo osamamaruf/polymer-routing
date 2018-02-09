@@ -1,0 +1,32 @@
+<link rel="import" href="../../../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="sub-view-2">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class SubView2 extends Polymer.Element {
+      static get is() { return 'sub-view-2'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'sub-view-2'
+          }    
+        };
+      }
+    }
+
+    window.customElements.define(SubView2.is, SubView2);
+  </script>
+</dom-module>

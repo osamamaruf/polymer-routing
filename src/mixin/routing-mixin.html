@@ -1,0 +1,29 @@
+<script>   
+    /**
+     *
+     * @summary
+     * @polymer
+     * @mixinFunction
+     */
+    RoutingMixin = Polymer.dedupingMixin(superclass => class extends superclass {
+        static get properties() {
+            return {
+                routesMap: {
+                    type: Object,
+                    readOnly: true,
+                    value: () => {
+                        return {
+                            view1: './fragments/view1/view1.html',
+                            view2: './fragments/view2/view2.html',
+                            view3: './fragments/view3/view3.html',
+                            view4: './fragments/view4/view4.html',
+                            view404: './fragments/view404/view404.html'
+                        };
+                    }
+                }
+            };
+        }
+
+    });
+
+</script>

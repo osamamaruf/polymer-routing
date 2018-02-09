@@ -1,0 +1,62 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../../../bower_components/paper-tabs/paper-tab.html">
+
+<link rel="import" href="fragments/subview1.html">
+<link rel="import" href="fragments/subview2.html">
+
+<dom-module id="view-1">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <app-route route="{{route}}" pattern="/:tabName" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+    <div>
+      <paper-tabs selected="[[routeData.tabName]]" attr-for-selected="name" noink noink scrollable hide-scroll-buttons>
+        <paper-tab link name="subview1" class="ft-tab tabStyle">
+
+          <a href="#/app/view1/subview1" tabindex="-1">Sub View 1</a>
+
+        </paper-tab>
+        <paper-tab link name="subview2" class="ft-tab tabStyle">
+
+          <a href="#/app/view1/subview2" tabindex="-1">Sub View 2</a>
+
+        </paper-tab>
+      </paper-tabs>
+    </div>
+    <div>
+      <iron-pages role="main" selected="[[routeData.tabName]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="404">
+        <sub-view-1 name="subview1" route="[[subroute]]"></sub-view-1>
+        <sub-view-2 name="subview2" route="[[subroute]]"></sub-view-2>
+      </iron-pages>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class View1 extends Polymer.Element {
+      static get is() { return 'view-1'; }
+      static get properties() {
+        return {
+        };
+      }
+
+      connectedCallback() {
+      }
+
+
+
+    }
+
+    window.customElements.define(View1.is, View1);
+  </script>
+</dom-module>

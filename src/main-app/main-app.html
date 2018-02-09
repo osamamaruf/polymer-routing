@@ -1,0 +1,102 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../mixin/routing-mixin.html">
+<!-- Since 'home' is the default route, eagerly load it. -->
+<link rel="import" href="fragments/view1/view1.html">
+<link rel="import" href="fragments/view2/view2.html">
+<link rel="import" href="fragments/view3/view3.html">
+<link rel="import" href="fragments/view4/view4.html">
+<dom-module id="main-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!--
+      app-location and app-route elements provide the state of the URL for the app.
+    -->
+    <app-location use-hash-as-path route="{{route}}"></app-location>
+    <app-route route="{{route}}" pattern="/app/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+
+
+    <div>
+      <iron-pages role="main" selected="[[routeData.page]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="error-404">
+        <!-- home view -->
+        <view-1 name="view1" route="[[subroute]]"></view-1>
+
+        <view-2 name="view2" route="[[subroute]]"></view-2>
+
+        <view-3 name="view3" route="[[subroute]]"></view-3>
+
+        <view-4 name="view4" route="[[subroute]]"></view-4>
+
+        <div name="error-404">
+          Could not find page.
+        </div>
+      </iron-pages>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class MainApp extends RoutingMixin(Polymer.Element) {
+      static get is() { return 'main-app'; }
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged'
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)'
+        ]
+      }
+
+      _routePageChanged(page) {
+
+        if (!this.route.path) {
+          this.set('route.path', '/app/view1/subview1');
+        }
+        else {
+          this.page = page;
+        }
+      }
+
+      _pageChanged(page) {
+        console.log('page changed called');
+        if (page != null) {
+          if (page === 'error-404') {
+            return;
+          }
+
+          const resolvedPageUrl = this.routesMap[page] ? this.resolveUrl(this.routesMap[page]) : undefined;
+          let cb = this._onError404.bind(this);
+          // url, onload,onerror,async
+          Polymer.importHref(
+            resolvedPageUrl,
+            null, cb, true);
+
+        }        
+      }
+
+      _onError404() {
+        this.page = 'error-404';
+      }
+
+
+    }
+
+    window.customElements.define(MainApp.is, MainApp);
+  </script>
+</dom-module>
